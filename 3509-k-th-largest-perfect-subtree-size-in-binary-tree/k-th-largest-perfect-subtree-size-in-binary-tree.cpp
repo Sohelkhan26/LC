@@ -1,26 +1,24 @@
 /*
-For each node If it has same number of nodes in the left and right subtree then it's a perfect binary tree. If it is we save it's size in a priority queue. 
-If it's not a binary tree we return -1 and don't push it into the priority queue.
+nth_element পুরো ভেকটরকে সর্ট করে না। শুধু k - 1 এলিমেন্ট সর্টেড এরে তে যে জায়গায় থাকার কথা সে জায়গায় থাকবে। টাইম কম্পেলক্সিটি কম। 
 */
 class Solution {
 public:
-    priority_queue<int> pq;
+    vector<int> sizes;
     int solve(TreeNode* root){
         if(not root)
             return 0;
-        int leftLen = solve(root -> left);
-        int rightLen = solve(root -> right);
-        if(leftLen == rightLen and leftLen >= 0){
-            pq.push(leftLen + rightLen + 1);
-            return leftLen + rightLen + 1;
+        int left = solve(root -> left) , right = solve(root -> right);
+        if(left == right and left >= 0){
+            sizes.push_back(left + right + 1);
+            return left + right + 1;
         }
         return -1;
     }
     int kthLargestPerfectSubtree(TreeNode* root, int k) {
         solve(root);
-        k--;
-        while(k-- and not pq.empty())
-            pq.pop();
-        return pq.empty() ? -1 : pq.top();
+        if(sizes.size() < k)
+            return -1;
+        nth_element(sizes.begin() , sizes.begin() + k - 1 , sizes.end() , greater{} );
+        return sizes[k - 1];
     }
 };
