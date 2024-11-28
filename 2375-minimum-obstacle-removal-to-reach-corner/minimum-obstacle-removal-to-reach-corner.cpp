@@ -1,24 +1,26 @@
 class Solution {
 public:
     int minimumObstacles(vector<vector<int>>& grid) {
-        priority_queue <vector<int> , vector<vector<int>> , greater<> > pq;
-        pq.push({grid[0][0] , 0 , 0});
-        grid[0][0] = 0;
         int n = grid.size() , m = grid[0].size();
         vector<vector<int>> dp(n , vector<int> (m , INT_MAX));
-        while(not pq.empty()){
-            auto it = pq.top(); pq.pop();
-            int obs = it[0] , i = it[1] , j = it[2];
-            if(i == n - 1 and j == m - 1)
-                return obs;
-            for(auto [di , dj] : vector<pair<int,int>> {{0 , 1} , {1 , 0} , {-1 , 0} , {0 , -1}}){
-                int newi = i + di , newj = j + dj;
-                if(min(newi , newj) >= 0 and newi < n and newj < m and grid[newi][newj] != -1){
-                    pq.push({obs + grid[newi][newj] , newi , newj});
-                    grid[newi][newj] = -1;
+        vector<vector<bool>> vis(n , vector<bool> (m));
+        deque <pair<int,int>> d;
+        d.push_front({0 , 0});
+        dp[0][0] = grid[0][0];
+        vis[0][0] = true;
+        while(not d.empty()){
+            auto [x , y] = d.front(); d.pop_front();
+            for(auto [dx , dy] : vector<pair<int,int>> {{0 , 1} , {1 , 0} , {-1 , 0} , {0 , -1}}){
+                int newX = x + dx , newY = y + dy;
+                if(min(newX , newY) >= 0 and newX < n and newY < m and vis[newX][newY] == false){
+                    dp[newX][newY] = dp[x][y] + grid[x][y];
+                    if(grid[newX][newY] == 1)
+                        d.push_back({newX , newY});
+                    else d.push_front({newX , newY});
+                    vis[newX][newY] = true;
                 }
             }
         }
-        return 0;
+        return dp[n - 1][m - 1];
     }
 };
