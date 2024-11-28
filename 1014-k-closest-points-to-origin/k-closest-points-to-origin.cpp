@@ -1,18 +1,13 @@
 class Solution {
 public:
     vector<vector<int>> kClosest(vector<vector<int>>& points, int k) {
-        priority_queue <vector<int>> pq;
-        for(auto it : points){
-            int x = it[0] , y = it[1];
-            pq.push({x * x + y * y , x , y});
-            if(pq.size() > k)
-                pq.pop();
-        }
+        sort(points.begin() , points.end() , [&](auto a , auto b){
+            return a[0] * a[0] + a[1] * a[1] < b[0] * b[0] + b[1] * b[1];
+        }); 
+// দুইটা পয়েন্টের মধ্যে কম্পেয়ার করে সর্ট করা হবে। যদি দুই নাম্বার পয়েন্ট এর দূরত্ব বেশী হয় তাহলে সেটা swap হয়ে পরে চলে যাবে। comparator function true return করলে swap হয়। 
         vector<vector<int>> ans;
-        while(not pq.empty()){
-            auto it = pq.top(); pq.pop();
-            ans.push_back({it[1] , it[2]});
-        }
+        for(int i = 0 ; i < k ; i++)
+            ans.push_back(points[i]);
         return ans;
     }
 };
