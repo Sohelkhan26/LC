@@ -6,9 +6,9 @@ public:
             bool ok = true;
             int i = 0 , j = 0 , m = w.size();
             while(i < n and j < m){
-                int cnt1 = 0 , cnt2 = 0;
-                char c = s[i];
-                while(s[i] == c)
+                int cnt1 = 0 , cnt2 = 0; // Every loop indicates start of new group
+                char c = s[i]; // s[i] == w[i] is not neccessary. It not equal, cnt1/2 either will be zero.
+                while(s[i] == c) // cnt1 is group length in s.
                     cnt1++ , i++;
                 while(w[j] == c)
                     cnt2++ , j++;
