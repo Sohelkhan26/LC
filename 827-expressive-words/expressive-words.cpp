@@ -12,10 +12,7 @@ public:
                     cnt1++ , i++;
                 while(w[j] == c)
                     cnt2++ , j++;
-                if(cnt1 < 3 and cnt1 != cnt2){
-                    ok = false;
-                    break;
-                }else if(cnt1 < cnt2){
+                if((cnt1 < 3 and cnt1 != cnt2) or (cnt1 < cnt2)){
                     ok = false;
                     break;
                 }
