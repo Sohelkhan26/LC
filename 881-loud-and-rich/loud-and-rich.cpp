@@ -13,7 +13,7 @@ public:
                 return ans[i];
             ans[i] = i; //Input can be given such that, No other person can be reachable from i. Than that person himself is the quietest. These kind of person/node have no outdegree. Let's call them lone nodes. For lone nodes, for loop won't execute. The ans for lone nodes is itself. ans[i] = i.
             for(int j : adj[i])
-                if(quiet[ans[i]] > quiet[dfs(j)])
+                if(quiet[ans[i]] > quiet[dfs(j)]) // this condition is crucial, if it's written like this : quiet[i] > quiet[dfs(j)] , then it's like hardcoded. In a dfs call ans[i] can be changed to some other node, whose quiet is the lowest. 
                     ans[i] = ans[j];
             return ans[i];
         };
