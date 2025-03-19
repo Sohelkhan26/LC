@@ -5,12 +5,10 @@ public:
         unordered_map <char,int> freq;
         for(int left = 0 , right = 0 ; right < n ; right++){
             freq[s[right]]++;
-            while(freq.size() < right - left + 1 and left <= right){
-                if(--freq[s[left]] == 0)
-                    freq.erase(s[left]);
-                left++;
-            }
-            ans = max(ans , right - left + 1);
+            while(freq[s[right]] != 1 and left <= right)
+                if(--freq[s[left++]] == 0)
+                    freq.erase(s[left - 1]);
+            ans = max(ans , (int)freq.size());
         }
         return ans;
     }
