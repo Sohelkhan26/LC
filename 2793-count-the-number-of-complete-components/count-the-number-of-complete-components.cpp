@@ -4,7 +4,7 @@ public:
     vector <bool> vis;
     pair<int,int> dfs(int i){
         vis[i] = true;
-        pair <int,int> nodeEdge = {1 , 0};
+        pair <int,int> nodeEdge = {1 , 0}; // {node , edge}
         nodeEdge.second += adj[i].size();
         for(int j : adj[i])
             if(not vis[j]){
@@ -28,3 +28,9 @@ public:
         return ans;
     }
 };
+
+/*
+For a component to be complete it must have n * (n - 1) / 2 unique edges (equal to the number of pairs of nodes in the graph). Since the given graph is undirected adjacency list counts each edge twice (once from each endpoint).
+So, run DFS on each component and calculate node and edge count.
+if node * (node - 1) == edge then it's a complete component.
+*/
