@@ -2,10 +2,9 @@ class Solution {
 public:
     int minMutation(string startGene, string endGene, vector<string>& bank) {
         set <string> allowed(bank.begin() , bank.end());
-        unordered_map <string,bool> visit;
+        if(not allowed.contains(endGene))return -1;
         queue <string> q;
         q.push(startGene);
-        visit[startGene] = true;
         int time = -1;
         string valid = "ATGC";
         while(not q.empty()){
@@ -13,19 +12,18 @@ public:
             time++;
             while(n--){
                 string s = q.front(); q.pop();
-                visit[s] = true;
+                allowed.erase(s); // erase it so isn't revisited.
                 if(s == endGene)
                     return time;
-                for(int i = 0 ; i < s.size() ; i++)
-                    for(char c : valid){
-                        char ch = s[i];
-                        if(c != ch){
-                            s[i] = c;
-                            if(allowed.contains(s) and not visit[s])
-                                q.push(s);
-                            s[i] = ch;
-                        }
+                for(char &c : s){
+                    for(char v : valid){
+                        char prev = c;
+                        c = v;
+                        if(allowed.contains(s))
+                            q.push(s);
+                        c = prev;
                     }
+                }
             }
         }
         return -1;
