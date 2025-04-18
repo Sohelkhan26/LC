@@ -1,14 +1,13 @@
 class Solution {
 public:
     int numPairsDivisibleBy60(vector<int>& time) {
-        unordered_map <int,int> freq;
-        int ans = 0;
-        for(int &i : time){
-            i %= 60;
-            ans += freq[i == 0 ? i : 60 - i];
-            freq[i]++;
+        vector<int> c(60);
+        int res = 0;
+        for (int t : time) {
+            res += c[(6000 - t) % 60];
+            c[t % 60] += 1;
         }
-        return ans;
+        return res;
     }
 };
 
