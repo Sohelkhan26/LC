@@ -4,7 +4,7 @@ public:
         auto counter = [&](int a){
             long long ans = 0;
             while(a){
-                ans += pow(7 , a % 10);
+                ans += pow(2 , a % 10);
                 a /= 10;
             }
             return ans;
