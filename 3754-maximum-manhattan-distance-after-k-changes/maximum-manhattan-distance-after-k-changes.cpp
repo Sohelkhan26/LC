@@ -7,10 +7,10 @@ public:
             int dist = 0 , move = k;
             for(char &c : s){
                 if(d.contains(c))
-                    dist++;
-                else if(move)
+                    dist++; // we go only in diagonal direction , increasing our dist.
+                else if(move) // any other direction decrease our dist, unless we have some k to change that direction.
                     dist++ , move--;
-                else dist--;
+                else dist--; // no movs left either, no choice but to decrease the distance.
                 ans = max(ans , dist);
             }
         }
