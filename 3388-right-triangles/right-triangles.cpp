@@ -10,8 +10,7 @@ public:
         long long ans = 0;
         for(int i = 0 ; i < n ; i++)
             for(int j = 0 ; j < m ; j++)
-                if(grid[i][j])
-                    ans += (row[i] - 1) * (col[j] - 1);
+                    ans += grid[i][j] * (row[i] - 1) * (col[j] - 1);
         return ans;
     }
 };
