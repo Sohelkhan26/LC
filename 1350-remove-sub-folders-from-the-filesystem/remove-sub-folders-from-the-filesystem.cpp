@@ -2,8 +2,7 @@ class Solution {
 public:
     struct node{
         unordered_map <char,node*> child;
-        bool end;
-        node() : end(false){}
+        bool end; 
     };
     node *root;
     bool isSubFolder(string s){
@@ -35,5 +34,4 @@ public:
 /*
 string "t" is a subfolder of string "s" if "s" is a prefix of string "t".
 Used trie for better time complexity.
-
 */
