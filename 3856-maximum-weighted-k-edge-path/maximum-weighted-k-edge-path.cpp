@@ -7,19 +7,21 @@ public:
         queue <vector<int>> q;
         for(int i = 0 ; i < n ; i++)
             q.push({i , 0 , 0});
-        set <vector<int>> vis;
+        // set <vector<int>> vis;
+        vector<vector<vector<bool>>> vis(n, vector<vector<bool>>(k + 1, vector<bool>(t, false)));
         int ans = -1;
         while(not q.empty()){
             auto it = q.front(); q.pop();
-            if(it[1] == k){
-                ans = max(ans , it[2]);
+            int curr = it[0] , edge = it[1] , pathSum = it[2];
+            if(edge == k){
+                ans = max(ans , pathSum);
                 continue;
             }
-            for(auto &[nei , w] : adj[it[0]]){
-                vector<int> newIt = {nei , it[1] + 1 , it[2] + w};
-                if(it[2] + w < t and not vis.contains({newIt})){
-                    q.push(newIt);
-                    vis.insert(newIt);
+            for(auto &[nei , w] : adj[curr]){
+                int newSum = pathSum + w;
+                if(newSum < t and not vis[nei][edge + 1][newSum]){
+                    vis[nei][edge + 1][newSum] = true;
+                    q.push({nei , edge + 1 , newSum});
                 }
             }
         }
