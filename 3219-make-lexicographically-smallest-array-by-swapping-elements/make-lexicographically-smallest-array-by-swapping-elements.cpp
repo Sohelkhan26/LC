@@ -5,21 +5,19 @@ public:
         sort(a.begin() , a.end());
         int groupNo = 0 , n = nums.size();
         unordered_map <int,int> group;
-        unordered_map <int,list<int>> groupToList;
-        groupToList.insert({groupNo , list <int> (1 , a[0])});
+        unordered_map <int, queue <int> > groupToList;
+        groupToList[groupNo].push(a[0]);
         group[a[0]] = groupNo;
         for(int i = 1 ; i < n ; i++){
             if(a[i] - a[i - 1] > limit)
                 groupNo++;
             group[a[i]] = groupNo;
-            if(not groupToList.contains(groupNo))
-                groupToList[groupNo] = list <int> ();
-            groupToList[groupNo].push_back(a[i]);
+            groupToList[groupNo].push(a[i]);
         }
         for(int i = 0 ; i < n ; i++){
             int groupNo = group[nums[i]];
-            nums[i] = *groupToList[groupNo].begin();
-            groupToList[groupNo].pop_front();
+            nums[i] = groupToList[groupNo].front();
+            groupToList[groupNo].pop();
         }
         return nums;
     }
@@ -44,4 +42,5 @@ out of all pos diff, take the element to the front that produce max diff . right
 basically the whole array can be sorted. Swapping property is transitive.
 intial group [9 , 8] , [6 , 5 , 4 , 3]
 But 8 - 6 = 2 they are grouped togather.
+Group numbers in nums. a number can be replaced with the smallest number in the same group. So simple but so elegant.
 */
