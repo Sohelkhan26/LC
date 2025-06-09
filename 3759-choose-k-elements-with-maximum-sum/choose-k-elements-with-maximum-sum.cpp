@@ -11,10 +11,8 @@ public:
         priority_queue <int> pq;
         for(int left = 0 , right = 0 ; right < n ; right++){
             int i = v[right].second; // current element
-            while(left < right){
+            while(left < right and nums1[i] > nums1[v[left].second]){
                 int j = v[left].second;
-                if(nums1[j] == nums1[i]) // we can't include elements [j..i] in our window
-                    break;
                 pq.push(-nums2[j]);
                 pref += nums2[j];
                 if(pq.size() > k)
