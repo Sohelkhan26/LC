@@ -9,14 +9,14 @@ public:
             return dp[i];
         int notTake = solve(i + 1 , offers);
         int low = i + 1 , high = n - 1 , mid , nextI = n;
-        // while(low <= high){
-        //     mid = low + (high - low) / 2;
-        //     if(offers[mid][0] > offers[i][1])
-        //         nextI = mid , high = mid - 1;
-        //     else low = mid + 1;
-        // }
-        vector <int> target = {offers[i][1] , INT_MAX};
-        nextI = upper_bound(offers.begin() + i + 1 , offers.end() , target) - offers.begin();
+        while(low <= high){
+            mid = low + (high - low) / 2;
+            if(offers[mid][0] > offers[i][1])
+                nextI = mid , high = mid - 1;
+            else low = mid + 1;
+        }
+        // vector <int> target = {offers[i][1] , INT_MAX};
+        // nextI = upper_bound(offers.begin() + i + 1 , offers.end() , target) - offers.begin();
         int take = offers[i][2] + solve(nextI , offers);
         return dp[i] = max(take , notTake);
     }
