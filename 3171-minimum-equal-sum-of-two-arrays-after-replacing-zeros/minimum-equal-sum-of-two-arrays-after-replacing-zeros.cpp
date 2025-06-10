@@ -14,3 +14,9 @@ public:
         return max(a , b);
     }
 };
+/*
+have to replace all 0 with +ve number.
+have to make sum of both equal.
+make all 0 -> 1, then increase a number of the array that has smaller sum.
+if no room to increase sum(no 0) and sum is less than the other, return -1
+*/
