@@ -1,22 +1,19 @@
 class Solution {
 public:
-    int n;
-    vector <long long> dp;
-    long long solve(int i , int k , vector<int> &nums){
-        if(i > n - 3)   
-            return 0ll;
-        if(dp[i] != -1)
-            return dp[i];
-        long long first = max(0 , k - nums[i]) + solve(i + 1 , k , nums);
-        long long second = max(0 , k - nums[i + 1]) + solve(i + 2 , k , nums);
-        long long third = max(0 , k - nums[i + 2]) + solve(i + 3 , k , nums);
-        return dp[i] = min(first , min(second , third));
-    }
     long long minIncrementOperations(vector<int>& nums, int k) {
-        n = nums.size();
-        dp.resize(n , -1);
-        if(n <= 3)
-            return max(0 , k - *ranges::max_element(nums));
-        return solve(0 , k , nums);
+        long long n = nums.size() , ans = 0;
+        for(int i = 1 ; i < n - 1 ; i++){
+            int val = max(nums[i - 1] , max(nums[i] , nums[i + 1]));
+            if(k > val){
+                int minOp = k - val;
+                nums[i - 1] += minOp , nums[i] += minOp , nums[i + 1] += minOp; // we don't know operation on which index will give minimum answer. So, we add to all three, so that they don't interfere in future.
+                ans += minOp;
+            }
+        }
+        return ans;
     }
 };
+
+/*
+ensuring max-element in all 3 length subarray is same for all length > 3 subarray.
+*/
