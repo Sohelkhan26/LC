@@ -35,14 +35,9 @@ public:
                 }
             }
         }
-        for(auto &it : dist){
-            for(int &i : it)cout << i << ' ';
-            cout << endl;
-        }
         priority_queue <array<int,3>> pq; // find the farthest path from any thief
         pq.push({dist[0][0] , 0 , 0}); // min(dist[i][j]) along the path is max
-        set <P> vis;
-        vis.insert({0 , 0});
+        vector<vector<bool>> vis(n , vector<bool> (m));
         while(not pq.empty()){
             auto t = pq.top() ; pq.pop();
             int d = t[0] , i = t[1] , j = t[2];
@@ -50,9 +45,9 @@ public:
                 return d;
             for(int k = 0 ; k < 4 ; k++){
                 int newI = i + path[k] , newJ = j + path[k + 1];
-                if(valid(newI , newJ) and not vis.contains({newI , newJ})){
+                if(valid(newI , newJ) and not vis[newI][newJ]){
                     pq.push({min(d , dist[newI][newJ]) , newI , newJ});
-                    vis.insert({newI , newJ});
+                    vis[newI][newJ] = true;
                 }
             }
         }
