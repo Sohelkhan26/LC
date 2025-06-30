@@ -1,19 +1,17 @@
 class Solution {
 public:
-    int deepest = 0;
-    TreeNode* lca = nullptr;
-    int solve(TreeNode* root , int depth){
-        deepest = max(deepest , depth);
+    pair<TreeNode*,int> solve(TreeNode* root , int depth){
         if(not root)
-            return depth;
-        int left = solve(root -> left , depth + 1);
-        int right = solve(root -> right , depth + 1);
-        if(left == deepest and right == deepest)
-            lca = root;
-        return max(left , right);
+            return {nullptr , 1};
+        auto left = solve(root -> left , depth + 1);
+        auto right = solve(root -> right , depth + 1);
+        if(left.second < right.second)
+            return {right.first , right.second + 1};
+        if(left.second > right.second)
+            return {left.first , left.second + 1};
+        return {root , left.second + 1};
     }
     TreeNode* lcaDeepestLeaves(TreeNode* root) {
-        solve(root , 0);
-        return lca;
+        return solve(root , 0).first;
     }
 };
