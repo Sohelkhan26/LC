@@ -2,15 +2,19 @@ class Solution {
 public:
     vector<bool> canEat(vector<int>& candiesCount, vector<vector<int>>& queries) {
         int n = candiesCount.size();
-        vector <long long> pref = {0};
+        vector <long long> pref = {candiesCount[0]};
         vector <bool> ans;
-        for(int i = 0 ; i < n ; i++)
+        for(int i = 1 ; i < n ; i++)
             pref.push_back(pref.back() + candiesCount[i]);
         for(auto &q : queries){
-            int type = q[0] , day = q[1] , limit = q[2];
-            long long maxDay = pref[type + 1] - 1;
-            long long minDay = pref[type] / limit;
-            ans.push_back(day <= maxDay and day >= minDay);
+            int i = q[0] , day = q[1] , limit = q[2];
+            bool ok = true;
+            if(day > pref[i] - 1)
+                ok = false;
+            long long total = (i > 0 ? pref[i - 1] : 0);
+            if(day < total / limit)
+                ok = false;
+            ans.push_back(ok);
         }
         return ans;
     }
@@ -31,6 +35,5 @@ can't cross daily limit.
 before fav day, fav candy eaten, possible when? d > pref[i] - 1 even eating 1 candy per day will exhaust fav candy
 pref[i - 1] candy should be eaten in the first d - 1 day
 without breaking limit. if limit breaks return false????
-
 
 */
