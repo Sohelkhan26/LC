@@ -1,27 +1,17 @@
 class Solution {
 public:
     int longestBeautifulSubstring(string word) {
-        int n = word.size() , ans = 0 , left , right;
-        unordered_map <char,int> freq;
-        auto valid = [&](){
-            for(char c : {'a' , 'e' , 'i' , 'o' , 'u'})
-                if(not freq.contains(c))
-                    return false;
-            return true;
-        };
+        int n = word.size() , ans = 0;
         char prev = word[0];
-        for(left = 0 , right = 0 ; right < n ; right++){
-            if(prev > word[right]){
-                if(valid())
-                    ans = max(ans , right - left);
-                left = right;
-                freq.clear();
-            }
+        unordered_map <char,int> freq;
+        for(int left = 0 , right = 0 ; right < n ; right++){
+            if(prev > word[right])
+                freq.clear() , left = right;
             freq[word[right]]++;
+            if(freq.size() == 5) 
+                ans = max(ans , right - left + 1);
             prev = word[right];
         }
-        if(valid())
-            ans = max(ans , right - left);
         return ans;
     }
 };
