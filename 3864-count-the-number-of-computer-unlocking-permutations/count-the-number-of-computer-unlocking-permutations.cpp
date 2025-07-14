@@ -18,4 +18,7 @@ I thought if 1,14,3
 if 14 is unlocked we can't then unlock 3 because 14 > 3
 But we can unlock 3 cause we have 1 , we don't have to follow 14 -> 3
 we can go from earlier computer too. 1 -> 3
+
+Oh, main observation is, if i'th computer's complexity is less than 0'th computer complexity, then we can't unlock that, in that case ans = 0
+The problem requires valid permutation to unlock all computers.
 */
