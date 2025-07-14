@@ -1,13 +1,23 @@
 class Solution {
 public:
+    struct Node{
+        Node* child[26] = {};
+        bool isEnd = false;
+    }*root , *curr;
     vector<string> partitionString(string s) {
-        unordered_set <string> seen;
+        root = new Node(); curr = root;
         string sub;
         vector<string> ans;
         for(char &c : s){
             sub.push_back(c);
-            if(not seen.contains(sub))
-                seen.insert(sub) , ans.push_back(move(sub));
+            int i = c - 'a';
+            if(curr -> child[i] == nullptr){
+                curr -> child[i] = new Node();
+                ans.push_back(move(sub));
+                curr = root;
+                continue;
+            }
+            curr = curr -> child[i];
         }
         return ans;
     }
