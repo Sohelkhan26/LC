@@ -1,21 +1,19 @@
 class Solution {
 public:
-    typedef unsigned long long ull;
     bool checkEqualPartitions(vector<int>& nums, long long target) {
-        ull total = accumulate(nums.begin() , nums.end() , 1ll , [&](ull prod , int i){
-            return prod * 1ll * i;
-        }); 
         int n = nums.size() , limit = (1 << n);
-        for(int i = 0 ; i < limit ; i++){
-            ull sub = 1;
+        for(int mask = 0 ; mask < limit ; mask++){ // __int128_t int with 128 bit
+            __int128_t sub[2] = {1 , 1}; // sub[0] stores unset bit product , sub[1] set bit product
             for(int j = 0 ; j < n ; j++){
-                int mask = (1 << j);
-                if(i & mask)
-                    sub *= nums[j];
+                sub[((mask >> j) & 1) == 1] *= nums[j]; // (mask >> j) & 1 check if bit is set/unset
             }
-            if(sub == target and 1ull * sub * target == total)
+            if(sub[0] == target and sub[1] == target)
                 return true;
         }
         return false;
     }
 };
+
+/*
+partition nums into two subsets such that product of each subset is equal to target.
+*/
