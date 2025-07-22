@@ -6,25 +6,22 @@ public:
         int n = cost.size() , m = cost[0].size();
         if(i == n)
             return hood == target ? 0 : INT_MAX;
+
         if(hood > target)
             return INT_MAX;
+
         if(dp[i][hood][prev] != -1)
             return dp[i][hood][prev];
-        long long take = INT_MAX , skip = INT_MAX;
-        if(houses[i] == 0){ // i'th house unpainted
-            for(int j = 0 ; j < m ; j++){
-                if(j + 1 == prev){ // i'th house included in previous hood
-                    take = min(take , 0LL + cost[i][j] + solve(i + 1 , hood , prev , cost , houses));
-                }else{ // i'th house starts new hood
-                    skip = min(skip , 0LL + cost[i][j] + solve(i + 1 , hood + 1 , j + 1 , cost , houses));
-                }
-            }
-        }else{ // i'th house painted
-            if(prev == houses[i]) // if this matches previous hood's color, it can be included in that hood
-                take = min(take , 0LL + solve(i + 1 , hood , prev , cost , houses));
-            else skip = min(skip , 0LL + solve(i + 1 , hood + 1 , houses[i] , cost , houses)); // this house starts a new hood but not cost as it was already painted , missed a else here and WA
+        long long ans = INT_MAX; 
+        // start a new hood if current houses color don't match the previous
+        if(houses[i] != 0) 
+            ans = min(ans , 0LL + solve(i + 1 , hood + (prev != houses[i]) , houses[i] , cost , houses));
+        else{
+            for(int j = 0 ; j < m ; j++)
+                ans = min(ans , 0LL + cost[i][j] + solve(i + 1 , hood + (j + 1 != prev) , j + 1 , cost , houses));
+            
         }
-        return dp[i][hood][prev] = min(skip , take);
+        return dp[i][hood][prev] = ans;
     }
     int minCost(vector<int>& houses, vector<vector<int>>& cost, int m, int n, int t) {
         target = t;
