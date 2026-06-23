@@ -1,0 +1,36 @@
+name: deploy-mkdocs
+on:
+  push:
+    branches:
+      - main
+permissions:
+  contents: read
+  pages: write      
+  id-token: write   
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install "mkdocs<2.0.0" mkdocs-material
+      
+      # Step 1: Execute compiler to map directories and generate tracking pages
+      - run: python build_docs.py
+      
+      # Step 2: Compile the staging docs folder into final static web structures
+      - run: mkdocs build
+      - run: touch site/.nojekyll
+      
+      # Step 3: Deliver asset bundles directly to cloud environment infrastructure
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: './site'
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4

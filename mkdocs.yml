@@ -1,0 +1,30 @@
+site_name: LeetCode Engine Notes
+site_url: https://sohelkhan26.github.io/LeetCode/
+repo_url: https://github.com/Sohelkhan26/LeetCode/
+
+theme:
+  name: material
+  features:
+    - navigation.indexes
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: blue grey
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: blue grey
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+markdown_extensions:
+  - attr_list
+  - md_in_html  # CRITICAL: Forces parser to process raw HTML blocks found inside descriptions
+
+plugins:
+  - search
