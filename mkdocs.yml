@@ -1,6 +1,6 @@
 site_name: LeetCode Engine Notes
-site_url: https://sohelkhan26.github.io/LC/
-repo_url: https://github.com/Sohelkhan26/LC/
+site_url: https://sohelkhan26.github.io/Leet-Code-Automated-Solution/
+repo_url: https://github.com/Sohelkhan26/Leet-Code-Automated-Solution/
 
 theme:
   name: material
